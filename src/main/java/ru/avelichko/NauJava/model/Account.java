@@ -1,56 +1,55 @@
 package ru.avelichko.NauJava.model;
 
-import java.util.Date;
+import jakarta.persistence.*;
 
+import java.util.List;
+
+@Entity
+@Table(name = "account")
 public class Account {
-    private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "account_id")
+    private Long account_id;
 
-    private AccountCategory accountCategory;
+    @OneToOne(mappedBy = "account")
+    private AccountUser accountUser;
 
-    private Double amount;
+    @OneToMany(mappedBy = "account")
+    private List<Expense> expenses;
 
-    private Date date;
+    @OneToMany(mappedBy = "account")
+    private List<Income> incomes;
 
-    public Account(Long id, AccountCategory accountCategory, Double amount, Date date) {
-        this.id = id;
-        this.accountCategory = accountCategory;
-        this.amount = amount;
-        this.date = date;
+    public List<Expense> getExpenses() {
+        return expenses;
     }
 
-    public Account() {
-        
+    public void setExpenses(List<Expense> expenses) {
+        this.expenses = expenses;
     }
 
-    public Long getId() {
-        return id;
+    public Long getAccount_id() {
+        return account_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setAccount_id(Long account_id) {
+        this.account_id = account_id;
     }
 
-    public AccountCategory getAccountCategory() {
-        return accountCategory;
+    public List<Income> getIncomes() {
+        return incomes;
     }
 
-    public void setAccountCategory(AccountCategory accountCategory) {
-        this.accountCategory = accountCategory;
+    public void setIncomes(List<Income> incomes) {
+        this.incomes = incomes;
     }
 
-    public Double getAmount() {
-        return amount;
+    public AccountUser getAccountUser() {
+        return accountUser;
     }
 
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
+    public void setAccountUser(AccountUser accountUser) {
+        this.accountUser = accountUser;
     }
 }

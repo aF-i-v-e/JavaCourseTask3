@@ -1,28 +1,50 @@
 package ru.avelichko.NauJava.model;
 
+import jakarta.persistence.*;
+
+import java.util.List;
+
 /**
  * Категория доходов
+ * WAGES("wages"),
+ * SCHOLARSHIP("scholarship"),
+ * OTHER("other");
  */
-public enum IncomeCategory implements AccountCategory {
-    WAGES("wages"),
-    SCHOLARSHIP("scholarship"),
-    OTHER("other");
+@Entity
+@Table(name = "income_category")
+public class IncomeCategory {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "income_category_id")
+    private Long incomeCategoryId;
 
-    private final String category;
+    @Column(name = "income_category_name")
+    private String incomeCategoryName;
 
-    IncomeCategory(String category) {
-        this.category = category;
+    @OneToMany(mappedBy = "incomeCategory")
+    private List<Income> incomes;
+
+    public Long getIncomeCategoryId() {
+        return incomeCategoryId;
     }
 
-    public String getCategory() {
-        return category;
+    public void setIncomeCategoryId(Long incomeCategoryId) {
+        this.incomeCategoryId = incomeCategoryId;
     }
 
-    public static IncomeCategory getByUpperCaseName(String name) {
-        if (name == null || name.isEmpty()) {
-            return null;
-        }
+    public String getIncomeCategoryName() {
+        return incomeCategoryName;
+    }
 
-        return IncomeCategory.valueOf(name.toUpperCase());
+    public void setIncomeCategoryName(String incomeCategoryName) {
+        this.incomeCategoryName = incomeCategoryName;
+    }
+
+    public List<Income> getIncomes() {
+        return incomes;
+    }
+
+    public void setIncomes(List<Income> incomes) {
+        this.incomes = incomes;
     }
 }

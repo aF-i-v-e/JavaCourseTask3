@@ -1,33 +1,56 @@
 package ru.avelichko.NauJava.model;
 
+import jakarta.persistence.*;
+
+import java.util.List;
+
 /**
  * Категория расходов
+ * FOOD("food"),
+ * TRANSPORT("transport"),
+ * HEALTH("health"),
+ * HOUSING("housing"),
+ * HOBBY("hobby"),
+ * CLOTHING("clothing"),
+ * ENTERTAINMENTS("entertainments"),
+ * OTHER("other");
  */
-public enum ExpenseCategory implements AccountCategory {
-    FOOD("food"),
-    TRANSPORT("transport"),
-    HEALTH("health"),
-    HOUSING("housing"),
-    HOBBY("hobby"),
-    CLOTHING("clothing"),
-    ENTERTAINMENTS("entertainments"),
-    OTHER("other");
 
-    private final String category;
+@Entity
+@Table(name = "expense_category")
+public class ExpenseCategory {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "expense_category_id")
+    private Long expenseCategoryId;
 
-    ExpenseCategory(String category) {
-        this.category = category;
+    @Column(name = "expense_category_name")
+    private String expenseCategoryName;
+
+    @OneToMany(mappedBy = "expenseCategory")
+    private List<Expense> expenses;
+
+    public Long getExpenseCategoryId() {
+        return expenseCategoryId;
     }
 
-    public String getCategory() {
-        return category;
+    public void setExpenseCategoryId(Long expenseCategoryId) {
+        this.expenseCategoryId = expenseCategoryId;
     }
 
-    public static ExpenseCategory getByUpperCaseName(String name) {
-        if (name == null || name.isEmpty()) {
-            return null;
-        }
+    public String getExpenseCategoryName() {
+        return expenseCategoryName;
+    }
 
-        return ExpenseCategory.valueOf(name.toUpperCase());
+    public void setExpenseCategoryName(String expenseCategoryName) {
+        this.expenseCategoryName = expenseCategoryName;
+    }
+
+    public List<Expense> getExpenses() {
+        return expenses;
+    }
+
+    public void setExpenses(List<Expense> expenses) {
+        this.expenses = expenses;
     }
 }
