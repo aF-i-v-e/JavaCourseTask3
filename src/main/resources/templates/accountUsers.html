@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User List</title>
+</head>
+<body>
+<h1>Список пользователей системы учёта и анализа личных расходов</h1>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Имя</th>
+        <th>Фамилия</th>
+        <th>Логин</th>
+        <th>Пароль</th>
+        <th>Роль</th>
+    </tr>
+    <tr th:each="accountUser : ${accountUsers}">
+        <td th:text="${accountUser.accountUserId}"></td>
+        <td th:text="${accountUser.name}"></td>
+        <td th:text="${accountUser.surname}"></td>
+        <td th:text="${accountUser.login}"></td>
+        <td th:text="${accountUser.password}"></td>
+        <td th:text="${accountUser.role.title}"></td>
+    </tr>
+</table>
+</body>
+</html>

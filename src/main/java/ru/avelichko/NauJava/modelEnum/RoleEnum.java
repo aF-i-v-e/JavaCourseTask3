@@ -1,7 +1,8 @@
 package ru.avelichko.NauJava.modelEnum;
 
 public enum RoleEnum {
-    ADMIN("admin"), USER("user");
+    ADMIN("admin"), USER("user"),
+    TEST_ADMIN("testAdmin"), TEST_USER("testUser");
 
     private String title;
 
