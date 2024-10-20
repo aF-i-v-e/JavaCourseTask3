@@ -28,3 +28,21 @@ http://localhost:8080/custom/account_users/view/list
 
 Интерфейс swagger-ui доступен по адресу:
 http://localhost:8080/swagger-ui/index.html
+
+-------------------------------------------------------
+
+## ПРАКТИЧЕСКАЯ РАБОТА № 6. Spring Security
+
+Для того чтобы создать одного пользователя и одного администратора, запустите один раз тесты
+testCreateUser() и testCreateUserAdmin() файла AccountUserRepositoryCustomTest.java.
+
+Регистрация пользователя в системе учёта и анализа личных расходов:
+http://localhost:8080/registration
+
+Вход пользователя в систему учёта и анализа личных расходов:
+http://localhost:8080/login
+
+Выход пользователя из системы учёта и анализа личных расходов:
+http://localhost:8080/logout
+
+-------------------------------------------------------

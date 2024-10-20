@@ -10,7 +10,7 @@ import java.util.List;
 @RepositoryRestResource(path = "account_users")
 public interface AccountUserRepository extends CrudRepository<AccountUser, Long> {
     /**
-     * Находит всех пользователей с заданным именем
+     * Находит всех пользователей с заданным логином
      *
      * @param login логин пользователя
      */

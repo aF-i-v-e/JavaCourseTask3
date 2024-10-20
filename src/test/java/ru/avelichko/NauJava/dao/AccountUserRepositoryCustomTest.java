@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.avelichko.NauJava.model.AccountUser;
 import ru.avelichko.NauJava.model.Role;
 import ru.avelichko.NauJava.modelEnum.RoleEnum;
@@ -17,11 +18,13 @@ import java.util.List;
 public class AccountUserRepositoryCustomTest {
 
     private final AccountUserRepositoryCustom accountUserRepositoryCustom;
+    private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
 
     @Autowired
-    public AccountUserRepositoryCustomTest(AccountUserRepositoryCustom accountUserRepositoryCustom, RoleRepository roleRepository) {
+    public AccountUserRepositoryCustomTest(AccountUserRepositoryCustom accountUserRepositoryCustom, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
         this.accountUserRepositoryCustom = accountUserRepositoryCustom;
+        this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
     }
 
@@ -34,10 +37,28 @@ public class AccountUserRepositoryCustomTest {
         String name = "Иван";
         String surname = "Иванов";
         String login = "iivanov";
-        String password = "12345";
+        String password = passwordEncoder.encode("12345");
 
         // генерация роли и её сохранение
         String user = RoleEnum.USER.getTitle();
+        Role userRole = new Role();
+        userRole.setTitle(user);
+        roleRepository.save(userRole);
+
+        long userId = accountUserRepositoryCustom.createAccountUser(name, surname, login, password, userRole);
+        Assertions.assertNotEquals(userId, -1L);
+    }
+
+    @Disabled
+    @Test
+    void testCreateUserAdmin() {
+        String name = "admin";
+        String surname = "admin";
+        String login = "admin";
+        String password = passwordEncoder.encode("admin");
+
+        // генерация роли и её сохранение
+        String user = RoleEnum.ADMIN.getTitle();
         Role userRole = new Role();
         userRole.setTitle(user);
         roleRepository.save(userRole);
