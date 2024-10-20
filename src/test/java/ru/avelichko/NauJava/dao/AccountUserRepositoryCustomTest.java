@@ -2,6 +2,7 @@ package ru.avelichko.NauJava.dao;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +26,27 @@ public class AccountUserRepositoryCustomTest {
     }
 
     /**
+     * Используется один раз для создания тестового пользователя
+     */
+    @Disabled
+    @Test
+    void testCreateUser() {
+        String name = "Иван";
+        String surname = "Иванов";
+        String login = "iivanov";
+        String password = "12345";
+
+        // генерация роли и её сохранение
+        String user = RoleEnum.USER.getTitle();
+        Role userRole = new Role();
+        userRole.setTitle(user);
+        roleRepository.save(userRole);
+
+        long userId = accountUserRepositoryCustom.createAccountUser(name, surname, login, password, userRole);
+        Assertions.assertNotEquals(userId, -1L);
+    }
+
+    /**
      * Тестирование поиска пользователя по его логину
      */
     @Test
@@ -36,11 +58,11 @@ public class AccountUserRepositoryCustomTest {
         String password = RandomStringUtils.randomAlphabetic(10);
 
         // генерация роли и её сохранение
-        String user = RoleEnum.USER.getTitle();
         Role userRole = new Role();
+        String user = RoleEnum.TEST_USER.toString();
+        ;
         userRole.setTitle(user);
         roleRepository.save(userRole);
-
         // создание пользователя
         long userId = accountUserRepositoryCustom.createAccountUser(name, surname, login, password, userRole);
 
@@ -64,7 +86,8 @@ public class AccountUserRepositoryCustomTest {
     void testFindByRole() {
         // создание привилегированного пользователя администратора
         // с ролью Admin
-        String admin = RoleEnum.ADMIN.getTitle();
+        String admin = RoleEnum.TEST_ADMIN.toString();
+        ;
         Role adminRole = new Role();
         adminRole.setTitle(admin);
         roleRepository.save(adminRole);
@@ -72,7 +95,7 @@ public class AccountUserRepositoryCustomTest {
         long adminId = accountUserRepositoryCustom.createAccountUser(admin, admin, admin, admin, adminRole);
 
         // создание обычного пользователя с ролью User
-        String user = RoleEnum.USER.getTitle();
+        String user = RoleEnum.TEST_USER.toString();
         Role userRole = new Role();
         userRole.setTitle(user);
         roleRepository.save(userRole);

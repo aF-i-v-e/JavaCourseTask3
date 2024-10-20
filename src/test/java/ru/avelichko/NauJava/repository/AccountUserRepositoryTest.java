@@ -1,6 +1,5 @@
 package ru.avelichko.NauJava.repository;
 
-import java.util.List;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -10,6 +9,8 @@ import ru.avelichko.NauJava.model.Account;
 import ru.avelichko.NauJava.model.AccountUser;
 import ru.avelichko.NauJava.model.Role;
 import ru.avelichko.NauJava.modelEnum.RoleEnum;
+
+import java.util.List;
 
 @SpringBootTest
 public class AccountUserRepositoryTest {
@@ -52,7 +53,7 @@ public class AccountUserRepositoryTest {
     void testFindByRole() {
         // создание привилегированного пользователя администратора
         // с ролью Admin
-        String admin = RoleEnum.ADMIN.getTitle();
+        String admin = RoleEnum.TEST_ADMIN.toString();
         Role adminRole = new Role();
         adminRole.setTitle(admin);
         roleRepository.save(adminRole);
@@ -63,7 +64,7 @@ public class AccountUserRepositoryTest {
         accountUserRepository.save(adminAccountUser);
 
         // создание обычного пользователя с ролью User
-        String user = RoleEnum.USER.getTitle();
+        String user = RoleEnum.TEST_USER.toString();
         Role userRole = new Role();
         userRole.setTitle(user);
         roleRepository.save(userRole);

@@ -1,6 +1,5 @@
 package ru.avelichko.NauJava.service;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -11,6 +10,8 @@ import ru.avelichko.NauJava.model.AccountUser;
 import ru.avelichko.NauJava.repository.AccountUserRepository;
 import ru.avelichko.NauJava.repository.RoleRepository;
 
+import java.util.List;
+
 @Service
 public class RoleServiceImpl implements RoleService {
     private final RoleRepository roleRepository;
@@ -19,7 +20,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     public RoleServiceImpl(RoleRepository roleRepository, AccountUserRepository accountUserRepository,
-        PlatformTransactionManager transactionManager) {
+                           PlatformTransactionManager transactionManager) {
         this.roleRepository = roleRepository;
         this.accountUserRepository = accountUserRepository;
         this.transactionManager = transactionManager;
