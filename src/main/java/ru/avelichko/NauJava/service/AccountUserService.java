@@ -8,17 +8,18 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import ru.avelichko.NauJava.domain.RoleEnum;
 import ru.avelichko.NauJava.exception.RegistrationException;
 import ru.avelichko.NauJava.model.Account;
 import ru.avelichko.NauJava.model.AccountUser;
 import ru.avelichko.NauJava.model.Role;
-import ru.avelichko.NauJava.modelEnum.RoleEnum;
 import ru.avelichko.NauJava.repository.AccountRepository;
 import ru.avelichko.NauJava.repository.AccountUserRepository;
 import ru.avelichko.NauJava.repository.RoleRepository;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 public class AccountUserService implements UserDetailsService {
@@ -57,12 +58,16 @@ public class AccountUserService implements UserDetailsService {
         }
 
         // Получение роли пользователя т.к. админы могут создаваться только вручную
-        List<Role> userRole = roleRepository.findByTitle(RoleEnum.USER.getTitle());
-        if (userRole == null || userRole.isEmpty()) {
-            roleRepository.save(new Role(RoleEnum.USER.toString()));
+        List<Role> userRoles = roleRepository.findByTitle(RoleEnum.USER.getTitle());
+        Role userRole;
+        if (userRoles == null || userRoles.isEmpty()) {
+            userRole = new Role(RoleEnum.USER.toString());
+            roleRepository.save(userRole);
             System.out.println("Создана роль пользователя в системе.");
+        } else {
+            userRole = userRoles.getFirst();
         }
-        accountUser.setRole(userRole.getFirst());
+        accountUser.setRole(userRole);
 
         // Создание связанного аккаунта
         Account account = new Account();
@@ -75,5 +80,11 @@ public class AccountUserService implements UserDetailsService {
         accountUser.setPassword(passwordEncoder.encode(accountUser.getPassword()));
         AccountUser savedUser = accountUserRepository.save(accountUser);
         return savedUser.getAccountUserId();
+    }
+
+    public int countAccountUsers() {
+        AtomicInteger accountUserCount = new AtomicInteger();
+        accountUserRepository.findAll().forEach(accountUser -> accountUserCount.addAndGet(1));
+        return accountUserCount.get();
     }
 }

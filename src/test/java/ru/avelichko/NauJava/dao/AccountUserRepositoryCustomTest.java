@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import ru.avelichko.NauJava.domain.RoleEnum;
 import ru.avelichko.NauJava.model.AccountUser;
 import ru.avelichko.NauJava.model.Role;
-import ru.avelichko.NauJava.modelEnum.RoleEnum;
 import ru.avelichko.NauJava.repository.RoleRepository;
 
 import java.util.List;

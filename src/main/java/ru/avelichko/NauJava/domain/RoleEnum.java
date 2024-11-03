@@ -1,4 +1,4 @@
-package ru.avelichko.NauJava.modelEnum;
+package ru.avelichko.NauJava.domain;
 
 public enum RoleEnum {
     ADMIN("ADMIN"),
@@ -6,7 +6,7 @@ public enum RoleEnum {
     TEST_ADMIN("TEST_ADMIN"),
     TEST_USER("TEST_USER");
 
-    private String title;
+    private final String title;
 
     RoleEnum(String title) {
         this.title = title;
