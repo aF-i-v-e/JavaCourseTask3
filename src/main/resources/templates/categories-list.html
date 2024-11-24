@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Categories list</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+
+<p><a href="/"><input type="submit" value="Главная"/></a></p>
+
+<div th:object="${expenseCategories}".>
+
+    <h2>Категории расходов</h2>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Название категории расходов</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="expenseCategory : ${expenseCategories}">
+            <td th:text="${expenseCategory.expenseCategoryId}"></td>
+            <td th:text="${expenseCategory.expenseCategoryName}"></td>
+            <td>
+                <button><a th:href="@{'/category/expenses/delete/' + ${expenseCategory.expenseCategoryId}}">x</a></button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <h3>Добавление категории расходов</h3>
+    <div th:if="${expenseCategoryMessage}">
+        <div th:text="${expenseCategoryMessage}"></div>
+    </div>
+    <form th:action="@{/category/expenses/add}" th:object="${expenseCategory}">
+        <div>
+            <label> Название новой категории: <input type="expenseCategoryName" name="expenseCategoryName"/> </label>
+        </div>
+        <div>
+            <input type="submit" value="Добавить">
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

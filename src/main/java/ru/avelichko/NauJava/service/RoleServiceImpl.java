@@ -7,6 +7,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import ru.avelichko.NauJava.model.AccountUser;
+import ru.avelichko.NauJava.model.Role;
 import ru.avelichko.NauJava.repository.AccountUserRepository;
 import ru.avelichko.NauJava.repository.RoleRepository;
 
@@ -24,6 +25,11 @@ public class RoleServiceImpl implements RoleService {
         this.roleRepository = roleRepository;
         this.accountUserRepository = accountUserRepository;
         this.transactionManager = transactionManager;
+    }
+
+    @Override
+    public List<Role> findByTitle(String roleTitle) {
+        return roleRepository.findByTitle(roleTitle);
     }
 
     @Override

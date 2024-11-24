@@ -27,8 +27,21 @@ public class ExpenseCategory {
     @Column(name = "expense_category_name")
     private String expenseCategoryName;
 
-    @OneToMany(mappedBy = "expenseCategory")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "expenseCategory")
     private List<Expense> expenses;
+
+    public ExpenseCategory() {
+
+    }
+
+    public ExpenseCategory(String name) {
+        this.expenseCategoryName = name;
+    }
+
+    public ExpenseCategory(String expenseCategoryName, List<Expense> expenses) {
+        this.expenseCategoryName = expenseCategoryName;
+        this.expenses = expenses;
+    }
 
     public Long getExpenseCategoryId() {
         return expenseCategoryId;

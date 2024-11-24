@@ -5,10 +5,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import ru.avelichko.NauJava.domain.RoleEnum;
 import ru.avelichko.NauJava.model.Account;
 import ru.avelichko.NauJava.model.AccountUser;
 import ru.avelichko.NauJava.model.Role;
-import ru.avelichko.NauJava.modelEnum.RoleEnum;
 
 import java.util.List;
 

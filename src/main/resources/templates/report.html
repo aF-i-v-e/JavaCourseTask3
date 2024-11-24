@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Report</title>
+</head>
+<body>
+
+<h1>Отчёт</h1>
+
+<div th:if="${message}">
+    <span style="white-space:pre" th:text="${message}"></span>
+</div>
+
+<div th:if="${report}">
+    <span>Уникальный идентификатор отчёта: <span th:text="${report.reportId}"></span></span>
+    <br>
+    <span>Статус отчёта: <span th:text="${report.status}"></span></span>
+    <br>
+    <span>Количество зарегистрированных пользователей в системе: <span th:text="${report.accountUserCount}"></span></span>
+    <br>
+    <span>Время, затраченное на вычисление количества зарегистрированных пользователей (мс): <span th:text="${report.accountUserCountTime}"></span></span>
+    <br>
+    <h3>Список объектов сущности ExpenseCategory:</h3>
+    <span style="white-space:pre" th:text="${report.content}"></span>
+    <br>
+    <span>Время, затраченное на формирования списка (мс): <span th:text="${report.contentTime}"></span></span>
+    <br>
+    <span>Общее время формирования отчёта (мс): <span th:text="${report.reportTime}"></span></span>
+</div>
+</body>
+</html>
