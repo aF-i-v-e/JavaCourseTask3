@@ -11,7 +11,7 @@
 
 <p><a href="/"><input type="submit" value="Главная"/></a></p>
 
-<div th:object="${expenseCategories}".>
+<div th:object="${expenseCategories}">
 
     <h2>Категории расходов</h2>
 
@@ -42,6 +42,45 @@
     <form th:action="@{/category/expenses/add}" th:object="${expenseCategory}">
         <div>
             <label> Название новой категории: <input type="expenseCategoryName" name="expenseCategoryName"/> </label>
+        </div>
+        <div>
+            <input type="submit" value="Добавить">
+        </div>
+    </form>
+</div>
+
+<div th:object="${incomeCategories}">
+
+    <h2>Категории доходов</h2>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Название категории доходов</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="incomeCategory : ${incomeCategories}">
+            <td th:text="${incomeCategory.incomeCategoryId}"></td>
+            <td th:text="${incomeCategory.incomeCategoryName}"></td>
+            <td>
+                <button><a th:href="@{'/category/incomes/delete/' + ${incomeCategory.incomeCategoryId}}">x</a></button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<div>
+    <h3>Добавление категории доходов</h3>
+    <div th:if="${incomeCategoryMessage}">
+        <div th:text="${incomeCategoryMessage}"></div>
+    </div>
+    <form th:action="@{/category/incomes/add}" th:object="${incomeCategory}">
+        <div>
+            <label> Название новой категории: <input type="incomeCategoryName" name="incomeCategoryName"/> </label>
         </div>
         <div>
             <input type="submit" value="Добавить">
