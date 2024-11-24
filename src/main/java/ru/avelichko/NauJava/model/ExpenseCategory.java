@@ -34,6 +34,10 @@ public class ExpenseCategory {
 
     }
 
+    public ExpenseCategory(String name) {
+        this.expenseCategoryName = name;
+    }
+
     public ExpenseCategory(String expenseCategoryName, List<Expense> expenses) {
         this.expenseCategoryName = expenseCategoryName;
         this.expenses = expenses;

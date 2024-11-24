@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Main application page</title>
+</head>
+<body>
+<div>
+    <h2>Главная страница системы анализа и учёта личных расходов</h2>
+    <h3>Добро пожаловать, <span th:text="${name}"></span>!</h3>
+</div>
+
+<div>
+    <a th:href="@{/category/list}">
+        <input type="submit" value="Категории расходов и дохов"/>
+    </a>
+</div>
+</body>
+</html>

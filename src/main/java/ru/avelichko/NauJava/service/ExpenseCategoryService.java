@@ -2,6 +2,7 @@ package ru.avelichko.NauJava.service;
 
 import org.springframework.stereotype.Component;
 import ru.avelichko.NauJava.domain.ExpenseCategoryEnum;
+import ru.avelichko.NauJava.exception.ServiceException;
 import ru.avelichko.NauJava.model.ExpenseCategory;
 import ru.avelichko.NauJava.repository.ExpenseCategoryRepository;
 
@@ -33,10 +34,27 @@ public class ExpenseCategoryService {
         return content.toString();
     }
 
-    private ArrayList<ExpenseCategory> getExpenseCategories() {
+    public ArrayList<ExpenseCategory> getExpenseCategories() {
         ArrayList<ExpenseCategory> expenseCategories = new ArrayList<>();
         expenseCategoryRepository.findAll().forEach(expenseCategories::add);
         return expenseCategories;
+    }
+
+    public void deleteExpenseCategoryById(Long id) {
+        expenseCategoryRepository.deleteById(id);
+    }
+
+    public void addExpenseCategory(ExpenseCategory expenseCategory) throws ServiceException {
+        List<ExpenseCategory> expenseCategories = expenseCategoryRepository
+                .findByExpenseCategoryName(expenseCategory.getExpenseCategoryName());
+        if (expenseCategories.isEmpty()) {
+            expenseCategoryRepository.save(expenseCategory);
+        } else {
+            throw new ServiceException(String.format(
+                    "Expense category with name %s already exists!",
+                    expenseCategory.getExpenseCategoryName()
+            ));
+        }
     }
 
     private void saveExpenseCategories() {

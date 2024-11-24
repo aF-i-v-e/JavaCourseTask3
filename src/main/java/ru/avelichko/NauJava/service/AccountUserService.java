@@ -87,4 +87,8 @@ public class AccountUserService implements UserDetailsService {
         accountUserRepository.findAll().forEach(accountUser -> accountUserCount.addAndGet(1));
         return accountUserCount.get();
     }
+
+    public String getNameByLogin(String login) {
+        return accountUserRepository.findByLogin(login).getFirst().getName();
+    }
 }
