@@ -46,10 +46,6 @@ public class AccountUserService implements UserDetailsService {
                 mapRolesToAuthorities(accountUser.getRole()));
     }
 
-    private List<? extends GrantedAuthority> mapRolesToAuthorities(Role role) {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + role.getTitle()));
-    }
-
     public Long addAccountUser(AccountUser accountUser) throws RegistrationException {
         // Проверка оригинальности логина пользователя
         List<AccountUser> logins = accountUserRepository.findByLogin(accountUser.getLogin());
@@ -90,5 +86,9 @@ public class AccountUserService implements UserDetailsService {
 
     public String getNameByLogin(String login) {
         return accountUserRepository.findByLogin(login).getFirst().getName();
+    }
+
+    private List<? extends GrantedAuthority> mapRolesToAuthorities(Role role) {
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.getTitle()));
     }
 }

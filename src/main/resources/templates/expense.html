@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Add expense</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+
+<p><a href="/"><input type="submit" value="Главная"/></a></p>
+
+<div th:object="${expenses}">
+
+  <h2>Информация о расходах</h2>
+
+  <table>
+    <thead>
+    <tr>
+      <th>Дата</th>
+      <th>Сумма</th>
+      <th>Категория расходов</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="expense : ${expenses}">
+      <td th:text="${expense.date}"></td>
+      <td th:text="${expense.amount}"></td>
+      <td th:text="${expense.expenseCategory.expenseCategoryName}"></td>
+      <td>
+        <button><a th:href="@{'/expenses/delete/' + ${expense.expenseId}}">x</a></button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<h2>Добавление новой информации о расходах</h2>
+
+<form th:action="@{/expense/add}" th:object="${expense}" method="post">
+  <ul>
+    <li>Дата: <input type="datetime-local"
+                     name="date"
+                     min="2015-01-01T00:00"
+                     max="2025-12-31T23:59"
+                     step="1">
+    </li>
+    <li>Сумма: <input type="number"
+                      step="0.01"
+                      min="0.00"
+                      name="amount">
+    </li>
+    <li>Категория расходов:
+      <select name="expenseCategory">
+        <option
+                th:each="expenseCategory : ${expenseCategories}"
+                th:value="${expenseCategory.expenseCategoryId}"
+                th:text="${expenseCategory.expenseCategoryName}">
+        </option>
+      </select>
+    </li>
+  </ul>
+  <input type="submit" value="Добавить">
+</form>
+
+</body>
+</html>
