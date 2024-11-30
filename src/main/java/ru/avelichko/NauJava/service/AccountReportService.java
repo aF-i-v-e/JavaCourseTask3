@@ -28,6 +28,10 @@ public class AccountReportService {
         this.accountReportRepository = accountReportRepository;
     }
 
+    public AccountReport findByAccountReportId(long id) {
+        return accountReportRepository.findById(id).orElse(null);
+    }
+
     public Boolean fillAllExpenseReport(Account account, AccountReport accountReport) {
         accountReport.setAccount(account);
         accountReport.setCategoryInfo(allCategoryReport);
