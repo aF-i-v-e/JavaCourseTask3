@@ -19,11 +19,7 @@ public class ExpenseCategoryService {
     }
 
     public String getExpenseCategoriesContent() {
-        ArrayList<ExpenseCategory> expenseCategories = getExpenseCategories();
-        if (expenseCategories.isEmpty()) {
-            saveExpenseCategories();
-            expenseCategories = getExpenseCategories();
-        }
+        List<ExpenseCategory> expenseCategories = getExpenseCategories();
         StringBuilder content = new StringBuilder();
         content.append("\nId\tНазвание\tКоличество записей\n");
         expenseCategories.forEach(expenseCategory ->
@@ -37,6 +33,9 @@ public class ExpenseCategoryService {
     public ArrayList<ExpenseCategory> getExpenseCategories() {
         ArrayList<ExpenseCategory> expenseCategories = new ArrayList<>();
         expenseCategoryRepository.findAll().forEach(expenseCategories::add);
+        if (expenseCategories.isEmpty()) {
+            addDefaultExpenseCategories(expenseCategories);
+        }
         return expenseCategories;
     }
 
@@ -57,14 +56,21 @@ public class ExpenseCategoryService {
         }
     }
 
-    private void saveExpenseCategories() {
-        List<ExpenseCategoryEnum> expenseCategoryEnum = List.of(ExpenseCategoryEnum.FOOD,
-                ExpenseCategoryEnum.TRANSPORT, ExpenseCategoryEnum.HEALTH, ExpenseCategoryEnum.HEALTH,
-                ExpenseCategoryEnum.HOUSING, ExpenseCategoryEnum.HOBBY, ExpenseCategoryEnum.CLOTHING,
-                ExpenseCategoryEnum.ENTERTAINMENTS, ExpenseCategoryEnum.OTHER);
+    private void addDefaultExpenseCategories(List<ExpenseCategory> expenseCategories) {
+        List<ExpenseCategoryEnum> expenseCategoryEnum = List.of(
+                ExpenseCategoryEnum.FOOD,
+                ExpenseCategoryEnum.TRANSPORT,
+                ExpenseCategoryEnum.HEALTH,
+                ExpenseCategoryEnum.HOUSING,
+                ExpenseCategoryEnum.HOBBY,
+                ExpenseCategoryEnum.CLOTHING,
+                ExpenseCategoryEnum.ENTERTAINMENTS,
+                ExpenseCategoryEnum.OTHER
+        );
         for (ExpenseCategoryEnum expenseCategoryType : expenseCategoryEnum) {
             ExpenseCategory expenseCategory = new ExpenseCategory(expenseCategoryType.getTitle(), Collections.emptyList());
             expenseCategoryRepository.save(expenseCategory);
+            expenseCategories.add(expenseCategory);
         }
     }
 }

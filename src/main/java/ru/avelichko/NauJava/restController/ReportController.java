@@ -6,11 +6,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.avelichko.NauJava.service.AccountService;
 import ru.avelichko.NauJava.service.ReportService;
 
 @RestController
 @RequestMapping("/rest")
 public class ReportController {
+
+    @Autowired
+    private AccountService accountService;
 
     @Autowired
     private ReportService reportService;

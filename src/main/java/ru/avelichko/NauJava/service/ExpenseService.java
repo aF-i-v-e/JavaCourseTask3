@@ -6,22 +6,14 @@ import ru.avelichko.NauJava.model.Account;
 import ru.avelichko.NauJava.model.Expense;
 import ru.avelichko.NauJava.repository.ExpenseRepository;
 
-import java.util.ArrayList;
-
 @Component
 public class ExpenseService {
-    
+
     private ExpenseRepository expenseRepository;
 
     @Autowired
     ExpenseService(ExpenseRepository expenseRepository) {
         this.expenseRepository = expenseRepository;
-    }
-
-    public ArrayList<Expense> getExpenses() {
-        ArrayList<Expense> expenses = new ArrayList<>();
-        expenseRepository.findAll().forEach(expenses::add);
-        return expenses;
     }
 
     public void createExpense(Expense expense, Account account) {

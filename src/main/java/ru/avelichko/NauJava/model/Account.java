@@ -10,7 +10,7 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "account_id")
-    private Long account_id;
+    private Long accountId;
 
     @OneToOne(mappedBy = "account")
     private AccountUser accountUser;
@@ -21,6 +21,12 @@ public class Account {
     @OneToMany(mappedBy = "account")
     private List<Income> incomes;
 
+    @OneToMany(mappedBy = "account")
+    private List<AccountReport> accountReports;
+
+    @OneToMany(mappedBy = "account")
+    private List<Report> reports;
+
     public List<Expense> getExpenses() {
         return expenses;
     }
@@ -29,12 +35,12 @@ public class Account {
         this.expenses = expenses;
     }
 
-    public Long getAccount_id() {
-        return account_id;
+    public Long getAccountId() {
+        return accountId;
     }
 
-    public void setAccount_id(Long account_id) {
-        this.account_id = account_id;
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
     }
 
     public List<Income> getIncomes() {
@@ -51,5 +57,21 @@ public class Account {
 
     public void setAccountUser(AccountUser accountUser) {
         this.accountUser = accountUser;
+    }
+
+    public List<AccountReport> getAccountReports() {
+        return accountReports;
+    }
+
+    public void setAccountReports(List<AccountReport> accountReports) {
+        this.accountReports = accountReports;
+    }
+
+    public List<Report> getReports() {
+        return reports;
+    }
+
+    public void setReports(List<Report> reports) {
+        this.reports = reports;
     }
 }

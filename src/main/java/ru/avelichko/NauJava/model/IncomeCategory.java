@@ -24,6 +24,13 @@ public class IncomeCategory {
     @OneToMany(mappedBy = "incomeCategory")
     private List<Income> incomes;
 
+    public IncomeCategory() {
+    }
+
+    public IncomeCategory(String incomeCategoryName) {
+        this.incomeCategoryName = incomeCategoryName;
+    }
+
     public Long getIncomeCategoryId() {
         return incomeCategoryId;
     }
