@@ -2,7 +2,7 @@ package ru.avelichko.NauJava.model;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Доходы пользователя
@@ -24,8 +24,8 @@ public class Expense {
     private Double amount;
 
     @Column(name = "date")
-    private Date date;
-    
+    private LocalDateTime date;
+
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
@@ -46,7 +46,7 @@ public class Expense {
         this.expenseId = expenseId;
     }
 
-    public ExpenseCategory getexpenseCategory() {
+    public ExpenseCategory getExpenseCategory() {
         return expenseCategory;
     }
 
@@ -62,11 +62,11 @@ public class Expense {
         this.amount = amount;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 }
