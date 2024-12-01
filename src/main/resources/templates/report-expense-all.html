@@ -50,6 +50,7 @@
     <span>Дополнительная информация: <span th:text="${generatedReport.dopInfo}"></span></span>
     <br>
     <hr>
+
     <div>
         <a th:href="@{/report/save/{id}(id=${generatedReport.accountReportId})}">
             <input type="submit" value="Сохранить отчёт в pdf"/>
