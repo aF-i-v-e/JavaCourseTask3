@@ -10,6 +10,10 @@ public class Report {
     @Column(name = "report_id")
     private Long reportId;
 
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
+
     @Column(name = "status")
     private String status;
 
@@ -94,6 +98,22 @@ public class Report {
     }
 
     public void setReportTime(long reportTime) {
+        this.reportTime = reportTime;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public void setContentTime(Long contentTime) {
+        this.contentTime = contentTime;
+    }
+
+    public void setReportTime(Long reportTime) {
         this.reportTime = reportTime;
     }
 }

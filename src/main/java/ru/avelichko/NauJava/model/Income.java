@@ -2,7 +2,7 @@ package ru.avelichko.NauJava.model;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Доходы пользователя
@@ -24,7 +24,7 @@ public class Income {
     private Double amount;
 
     @Column(name = "date")
-    private Date date;
+    private LocalDateTime date;
 
     public void setAccount(Account account) {
         this.account = account;
@@ -54,14 +54,14 @@ public class Income {
         this.amount = amount;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
-    
+
     public Long getIncomeId() {
         return incomeId;
     }

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>All expense report</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<p><a href="/"><input type="submit" value="Главная"/></a></p>
+<h2>Формирование отчёта по всем категориям расходов за выбранный период времени</h2>
+
+<form th:action="@{/report/expense/all/create}" th:object="${accountReport}" method="post">
+    <ul>
+        <li>Дата начала: <input type="datetime-local"
+                         name="dateStart"
+                         min="2015-01-01T00:00"
+                         max="2025-12-31T23:59"
+                         step="1">
+        </li>
+
+        <li>Дата конца: <input type="datetime-local"
+                                name="dateEnd"
+                                min="2015-01-01T00:00"
+                                max="2025-12-31T23:59"
+                                step="1">
+        </li>
+    </ul>
+    <input type="submit" value="Сформировать">
+</form>
+
+<div th:if="${message}">
+    <div th:text="${message}"></div>
+</div>
+
+<div th:if="${generatedReport}">
+    <br>
+    <hr>
+    <span>Уникальный идентификатор отчёта: <span th:text="${generatedReport.accountReportId}"></span></span>
+    <br>
+    <span>Начало периода: <span th:text="${generatedReport.dateStart}"></span></span>
+    <br>
+    <span>Конец периода: <span th:text="${generatedReport.dateEnd}"></span></span>
+    <br>
+    <span>Сумма: <span th:text="${generatedReport.totalSum}"></span></span>
+    <br>
+    <span>Категория отчёта: <span th:text="${generatedReport.categoryInfo}"></span></span>
+    <br>
+    <span>Дополнительная информация: <span th:text="${generatedReport.dopInfo}"></span></span>
+    <br>
+    <hr>
+    <div>
+        <a th:href="@{/report/save/{id}(id=${generatedReport.accountReportId})}">
+            <input type="submit" value="Сохранить отчёт в pdf"/>
+        </a>
+    </div>
+
+    <div>
+        <a th:href="@{/report/send/{id}(id=${generatedReport.accountReportId})}">
+            <input type="submit" value="Отправить отчёт по почте"/>
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

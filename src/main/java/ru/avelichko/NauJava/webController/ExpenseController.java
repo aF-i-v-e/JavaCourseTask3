@@ -12,7 +12,6 @@ import ru.avelichko.NauJava.model.Account;
 import ru.avelichko.NauJava.model.Expense;
 import ru.avelichko.NauJava.model.ExpenseCategory;
 import ru.avelichko.NauJava.service.AccountService;
-import ru.avelichko.NauJava.service.AccountUserService;
 import ru.avelichko.NauJava.service.ExpenseCategoryService;
 import ru.avelichko.NauJava.service.ExpenseService;
 
@@ -25,9 +24,6 @@ public class ExpenseController {
     private AccountService accountService;
 
     @Autowired
-    private AccountUserService accountUserService;
-
-    @Autowired
     private ExpenseService expenseService;
 
     @Autowired
@@ -35,7 +31,10 @@ public class ExpenseController {
 
     @RequestMapping("/expense")
     public String expense(Model model) {
-        List<Expense> expenses = expenseService.getExpenses();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Account account = accountService.getAccountByLogin(auth.getName());
+
+        List<Expense> expenses = account.getExpenses();
         List<ExpenseCategory> expenseCategories = expenseCategoryService.getExpenseCategories();
         model.addAttribute("expenses", expenses);
         model.addAttribute("expenseCategories", expenseCategories);
