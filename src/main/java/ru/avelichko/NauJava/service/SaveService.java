@@ -10,10 +10,36 @@ import com.itextpdf.layout.property.TextAlignment;
 import org.springframework.stereotype.Component;
 import ru.avelichko.NauJava.model.AccountReport;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Component
 public class SaveService {
+
+    private final String successfulMessage = "Отчёт успешно сохранён в ";
+    private final String unsuccessfulMessage = "Ошибка при сохранении отчёта в ";
+
+    public Path getAccountReportPath(Path dirPath, AccountReport accountReport) {
+        return dirPath.resolve(accountReport.getAccountReportId().toString() + ".pdf");
+    }
+
+    public String save(Path dirPath, AccountReport accountReport) {
+        String accountReportSavePath = getAccountReportPath(dirPath, accountReport).toString();
+        if (!Files.exists(dirPath)) {
+            try {
+                Files.createDirectories(dirPath);
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+                return unsuccessfulMessage + accountReportSavePath;
+            }
+        }
+        Boolean isSuccess = saveToPdf(accountReport, accountReportSavePath);
+        String message = isSuccess ? successfulMessage : unsuccessfulMessage;
+        message += accountReportSavePath;
+        return message;
+    }
 
     public Boolean saveToPdf(AccountReport report, String pathToSave) {
         try {
