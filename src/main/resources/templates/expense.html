@@ -52,13 +52,7 @@
                       name="amount">
     </li>
     <li>Категория расходов:
-      <select name="expenseCategory">
-        <option
-                th:each="expenseCategory : ${expenseCategories}"
-                th:value="${expenseCategory.expenseCategoryId}"
-                th:text="${expenseCategory.expenseCategoryName}">
-        </option>
-      </select>
+      <div th:replace="expense-categories.html"></div>
     </li>
   </ul>
   <input type="submit" value="Добавить">

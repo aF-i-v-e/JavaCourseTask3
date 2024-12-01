@@ -1,0 +1,29 @@
+<div th:if="${generatedReport}">
+    <br>
+    <hr>
+    <span>Уникальный идентификатор отчёта: <span th:text="${generatedReport.accountReportId}"></span></span>
+    <br>
+    <span>Начало периода: <span th:text="${generatedReport.dateStart}"></span></span>
+    <br>
+    <span>Конец периода: <span th:text="${generatedReport.dateEnd}"></span></span>
+    <br>
+    <span>Сумма: <span th:text="${generatedReport.totalSum}"></span></span>
+    <br>
+    <span>Категория отчёта: <span th:text="${generatedReport.categoryInfo}"></span></span>
+    <br>
+    <span>Дополнительная информация: <span th:text="${generatedReport.dopInfo}"></span></span>
+    <br>
+    <hr>
+
+    <div>
+        <a th:href="@{/report/save/{id}(id=${generatedReport.accountReportId})}">
+            <input type="submit" value="Сохранить отчёт в pdf"/>
+        </a>
+    </div>
+
+    <form th:action="@{/report/send/{id}(id=${generatedReport.accountReportId})}" method="post">
+        <label for="recipient">Почта:</label><br>
+        <input type="text" id="recipient" name="recipient"><br><br>
+        <input type="submit" value="Отправить отчёт по почте">
+    </form>
+</div>
