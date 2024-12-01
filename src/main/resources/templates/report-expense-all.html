@@ -57,11 +57,11 @@
         </a>
     </div>
 
-    <div>
-        <a th:href="@{/report/send/{id}(id=${generatedReport.accountReportId})}">
-            <input type="submit" value="Отправить отчёт по почте"/>
-        </a>
-    </div>
+    <form th:action="@{/report/send/{id}(id=${generatedReport.accountReportId})}" method="post">
+        <label for="recipient">Почта:</label><br>
+        <input type="text" id="recipient" name="recipient"><br><br>
+        <input type="submit" value="Отправить отчёт по почте">
+    </form>
 </div>
 
 </body>
