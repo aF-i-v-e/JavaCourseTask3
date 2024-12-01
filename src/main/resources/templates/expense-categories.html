@@ -1,0 +1,7 @@
+<select name="expenseCategory">
+    <option
+            th:each="expenseCategory : ${expenseCategories}"
+            th:value="${expenseCategory.expenseCategoryId}"
+            th:text="${expenseCategory.expenseCategoryName}">
+    </option>
+</select>

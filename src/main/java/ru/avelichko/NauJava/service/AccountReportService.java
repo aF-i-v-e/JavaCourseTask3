@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import ru.avelichko.NauJava.model.Account;
 import ru.avelichko.NauJava.model.AccountReport;
 import ru.avelichko.NauJava.model.Expense;
+import ru.avelichko.NauJava.model.ExpenseCategory;
 import ru.avelichko.NauJava.repository.AccountReportRepository;
 import ru.avelichko.NauJava.repository.AccountRepository;
 
@@ -18,7 +19,7 @@ public class AccountReportService {
     private final AccountRepository accountRepository;
 
     private final String allCategoryReport = "Отчёт по всем категориям";
-    private final String specificCategoryReport = "Отчёт по категории";
+    private final String specificCategoryReport = "Отчёт по категории ";
     private final AccountReportRepository accountReportRepository;
 
     @Autowired
@@ -50,6 +51,24 @@ public class AccountReportService {
         }
         Double totalSum = expenses.stream().mapToDouble(Expense::getAmount).sum();
         accountReport.setTotalSum(totalSum);
+        accountReportRepository.save(accountReport);
+        return true;
+    }
+
+    public Boolean fillSpecificExpenseReport(Account account,
+                                             AccountReport accountReport,
+                                             ExpenseCategory expenseCategory) {
+        accountReport.setAccount(account);
+        accountReport.setCategoryInfo(specificCategoryReport + expenseCategory.getExpenseCategoryName());
+        List<Expense> expenses = getExpensesInTimeRange(account,
+                accountReport.getDateStart(),
+                accountReport.getDateEnd())
+                .stream()
+                .filter(expense -> expense.getExpenseCategory().getExpenseCategoryId().equals(expenseCategory.getExpenseCategoryId()))
+                .toList();
+        Double totalSum = expenses.stream().mapToDouble(Expense::getAmount).sum();
+        accountReport.setTotalSum(totalSum);
+        accountReport.setDopInfo("Количество записей в категории составляет " + expenses.size());
         accountReportRepository.save(accountReport);
         return true;
     }
