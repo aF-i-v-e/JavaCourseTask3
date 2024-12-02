@@ -2,10 +2,7 @@ package ru.avelichko.NauJava.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.avelichko.NauJava.model.Account;
-import ru.avelichko.NauJava.model.AccountReport;
-import ru.avelichko.NauJava.model.Expense;
-import ru.avelichko.NauJava.model.ExpenseCategory;
+import ru.avelichko.NauJava.model.*;
 import ru.avelichko.NauJava.repository.AccountReportRepository;
 import ru.avelichko.NauJava.repository.AccountRepository;
 
@@ -78,5 +75,53 @@ public class AccountReportService {
                 .filter(expense -> expense.getDate().isAfter(start))
                 .filter(expense -> expense.getDate().isBefore(end))
                 .toList();
+    }
+
+    private List<Income> getIncomesInTimeRange(Account account, LocalDateTime start, LocalDateTime end) {
+        return account.getIncomes().stream()
+                .filter(expense -> expense.getDate().isAfter(start))
+                .filter(expense -> expense.getDate().isBefore(end))
+                .toList();
+    }
+
+    public Boolean fillAllIncomeReport(Account account, AccountReport accountReport) {
+        accountReport.setAccount(account);
+        accountReport.setCategoryInfo(allCategoryReport);
+        List<Income> incomes = getIncomesInTimeRange(account,
+                accountReport.getDateStart(),
+                accountReport.getDateEnd()
+        );
+        Optional<Income> maxIncome = incomes.stream().max(Comparator.comparingDouble(Income::getAmount));
+        if (maxIncome.isPresent()) {
+            String dopInfo = String.format("Максимальная величина доходов составляет %.2f в категории %s",
+                    maxIncome.get().getAmount(),
+                    maxIncome.get().getIncomeCategory().getIncomeCategoryName());
+            accountReport.setDopInfo(dopInfo);
+        } else {
+            return false;
+        }
+        Double totalSum = incomes.stream().mapToDouble(Income::getAmount).sum();
+        accountReport.setTotalSum(totalSum);
+        accountReportRepository.save(accountReport);
+        return true;
+    }
+
+    public Boolean fillSpecificIncomeReport(Account account,
+                                            AccountReport accountReport,
+                                            IncomeCategory incomeCategory) {
+        accountReport.setAccount(account);
+        accountReport.setCategoryInfo(specificCategoryReport + incomeCategory.getIncomeCategoryName());
+        List<Income> incomes = getIncomesInTimeRange(account,
+                accountReport.getDateStart(),
+                accountReport.getDateEnd())
+                .stream()
+                .filter(income -> income.getIncomeCategory().getIncomeCategoryId()
+                        .equals(incomeCategory.getIncomeCategoryId()))
+                .toList();
+        Double totalSum = incomes.stream().mapToDouble(Income::getAmount).sum();
+        accountReport.setTotalSum(totalSum);
+        accountReport.setDopInfo("Количество записей в категории составляет " + incomes.size());
+        accountReportRepository.save(accountReport);
+        return true;
     }
 }
