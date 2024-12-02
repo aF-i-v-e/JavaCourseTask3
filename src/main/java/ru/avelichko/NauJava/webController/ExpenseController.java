@@ -49,7 +49,7 @@ public class ExpenseController {
         return expense(model);
     }
 
-    @RequestMapping("/expenses/delete/{id}")
+    @RequestMapping("/expense/delete/{id}")
     public String deleteExpense(@PathVariable("id") long id, Model model) {
         expenseService.deleteExpenseById(id);
         return expense(model);

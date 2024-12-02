@@ -21,7 +21,7 @@ public class IncomeCategory {
     @Column(name = "income_category_name")
     private String incomeCategoryName;
 
-    @OneToMany(mappedBy = "incomeCategory")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "incomeCategory")
     private List<Income> incomes;
 
     public IncomeCategory() {

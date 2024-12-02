@@ -29,7 +29,7 @@
       <td th:text="${expense.amount}"></td>
       <td th:text="${expense.expenseCategory.expenseCategoryName}"></td>
       <td>
-        <button><a th:href="@{'/expenses/delete/' + ${expense.expenseId}}">x</a></button>
+        <button><a th:href="@{'/expense/delete/' + ${expense.expenseId}}">x</a></button>
       </td>
     </tr>
     </tbody>
