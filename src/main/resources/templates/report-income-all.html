@@ -3,15 +3,15 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Specific expense report</title>
+    <title>All income report</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 
 <p><a href="/"><input type="submit" value="Главная"/></a></p>
-<h2>Формирование отчёта по конкретной категории расходов за выбранный период времени</h2>
+<h2>Формирование отчёта по всем категориям доходов за выбранный период времени</h2>
 
-<form th:action="@{/report/expense/specific/create}" th:object="${accountReport}" method="post">
+<form th:action="@{/report/income/all/create}" th:object="${accountReport}" method="post">
     <ul>
         <li>Дата начала: <input type="datetime-local"
                                 name="dateStart"
@@ -25,9 +25,6 @@
                                min="2015-01-01T00:00"
                                max="2025-12-31T23:59"
                                step="1">
-        </li>
-        <li>
-            <div th:replace="expense-categories.html"></div>
         </li>
     </ul>
     <input type="submit" value="Сформировать">
