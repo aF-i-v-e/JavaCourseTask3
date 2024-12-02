@@ -1,0 +1,7 @@
+<select name="incomeCategory">
+    <option
+            th:each="incomeCategory : ${incomeCategories}"
+            th:value="${incomeCategory.incomeCategoryId}"
+            th:text="${incomeCategory.incomeCategoryName}">
+    </option>
+</select>

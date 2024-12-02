@@ -9,7 +9,7 @@ import ru.avelichko.NauJava.repository.ExpenseRepository;
 @Component
 public class ExpenseService {
 
-    private ExpenseRepository expenseRepository;
+    private final ExpenseRepository expenseRepository;
 
     @Autowired
     ExpenseService(ExpenseRepository expenseRepository) {

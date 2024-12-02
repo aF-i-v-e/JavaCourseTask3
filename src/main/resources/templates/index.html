@@ -26,6 +26,12 @@
 </div>
 
 <div>
+    <a th:href="@{/income}">
+        <input type="submit" value="Добавление информации о доходах"/>
+    </a>
+</div>
+
+<div>
     <h3>Формирование отчётов:</h3>
 </div>
 
@@ -38,6 +44,18 @@
 <div>
     <a th:href="@{/report/expense/specific}">
         <input type="submit" value="По конкретной категории расходов"/>
+    </a>
+</div>
+
+<div>
+    <a th:href="@{/report/income/all}">
+        <input type="submit" value="По всем категориям доходов"/>
+    </a>
+</div>
+
+<div>
+    <a th:href="@{/report/income/specific}">
+        <input type="submit" value="По конкретной категории доходов"/>
     </a>
 </div>
 
