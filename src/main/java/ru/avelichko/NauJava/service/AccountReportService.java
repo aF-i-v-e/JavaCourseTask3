@@ -4,25 +4,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.avelichko.NauJava.model.*;
 import ru.avelichko.NauJava.repository.AccountReportRepository;
-import ru.avelichko.NauJava.repository.AccountRepository;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Component
 public class AccountReportService {
-    private final AccountRepository accountRepository;
+    private final AccountReportRepository accountReportRepository;
 
     private final String allCategoryReport = "Отчёт по всем категориям";
     private final String specificCategoryReport = "Отчёт по категории ";
-    private final AccountReportRepository accountReportRepository;
 
     @Autowired
-    public AccountReportService(AccountRepository accountRepository,
-                                AccountReportRepository accountReportRepository) {
-        this.accountRepository = accountRepository;
+    public AccountReportService(AccountReportRepository accountReportRepository) {
         this.accountReportRepository = accountReportRepository;
     }
 
@@ -48,7 +45,7 @@ public class AccountReportService {
         }
         Double totalSum = expenses.stream().mapToDouble(Expense::getAmount).sum();
         accountReport.setTotalSum(totalSum);
-        accountReportRepository.save(accountReport);
+        saveIfNotExists(accountReport);
         return true;
     }
 
@@ -66,7 +63,7 @@ public class AccountReportService {
         Double totalSum = expenses.stream().mapToDouble(Expense::getAmount).sum();
         accountReport.setTotalSum(totalSum);
         accountReport.setDopInfo("Количество записей в категории составляет " + expenses.size());
-        accountReportRepository.save(accountReport);
+        saveIfNotExists(accountReport);
         return true;
     }
 
@@ -102,7 +99,7 @@ public class AccountReportService {
         }
         Double totalSum = incomes.stream().mapToDouble(Income::getAmount).sum();
         accountReport.setTotalSum(totalSum);
-        accountReportRepository.save(accountReport);
+        saveIfNotExists(accountReport);
         return true;
     }
 
@@ -121,7 +118,22 @@ public class AccountReportService {
         Double totalSum = incomes.stream().mapToDouble(Income::getAmount).sum();
         accountReport.setTotalSum(totalSum);
         accountReport.setDopInfo("Количество записей в категории составляет " + incomes.size());
-        accountReportRepository.save(accountReport);
+        saveIfNotExists(accountReport);
         return true;
+    }
+
+    private void saveIfNotExists(AccountReport accountReport) {
+        List<AccountReport> existAccountReport = accountReportRepository
+                .findByAccount(accountReport.getAccount()).stream()
+                .filter(report -> report.getDateStart().equals(accountReport.getDateStart()))
+                .filter(report -> report.getDateEnd().equals(accountReport.getDateEnd()))
+                .filter(report -> Double.compare(report.getTotalSum(), accountReport.getTotalSum()) == 0)
+                .filter(report -> Objects.equals(report.getCategoryInfo(), accountReport.getCategoryInfo()))
+                .filter(report -> Objects.equals(report.getDopInfo(), accountReport.getDopInfo()))
+                .toList();
+        if (existAccountReport.isEmpty())
+            accountReportRepository.save(accountReport);
+        else
+            accountReport.setAccountReportId(existAccountReport.getFirst().getAccountReportId());
     }
 }
